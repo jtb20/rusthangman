@@ -61,22 +61,17 @@ fn main() {
     if this_guess.len() == 0 {
       println!("resigning");
       std::process::exit(0);
-    } else  if this_guess.len() == 1 {
+    } else if this_guess.len() == 1 {
       let guess_char = this_guess.chars().nth(0).unwrap();
-      let mut already_guessed = false;
-      for x in 0..7 {
-        if guessed[x] == guess_char {
-          already_guessed = true;
-        }
-      }
+      let already_guessed = guessed.into_iter().any(|&x| x == guess_char);
       if already_guessed {
         lives = lives - 1;
         println!("already guessed {}, lives now {}!", guess_char, lives);
       } else {
         let mut good_guess = false;
-        for x in 0..7 {
-          if guess_char == master.chars().nth(x).unwrap() {
-            guessed[x] = guess_char;
+        for (i, master_char) in master.chars().enumerate() {
+          if guess_char == master_char {
+            guessed[i] = guess_char;
             good_guess = true;
           }
         }
